@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Absensi Magang - KPU Provinsi Jambi</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    :root { --ungu: #6A0DAD; --ungu-tua: #4B0082; --kuning: #FFD700; --merah: #E53935; --hijau: #4CAF50; }
+    body { background: linear-gradient(180deg, var(--ungu-tua) 0%, var(--ungu) 100%); font-family: 'Montserrat', sans-serif; margin: 0; color: white; }
+ .container { max-width: 500px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+ .header { background: linear-gradient(135deg, var(--ungu) 0%, var(--ungu-tua) 100%); padding: 30px 20px 40px 20px; text-align: center; border-bottom: 5px solid var(--kuning); }
+ .logo-bulat { width: 90px; height: 90px; background: white; border-radius: 50%; margin: 0 auto 20px auto; border: 5px solid var(--kuning); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(255,215,0,0.7); }
+ .logo-bulat img { width: 65px; }
+ .header h1 { font-size: 22px; margin: 0; font-weight: 900; }.header h1 i { color: var(--kuning); margin-right: 8px; }
+ .jam-operasional { background: rgba(255,255,255,0.1); padding: 18px 20px; text-align: center; font-size: 13px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); }
+ .ket-jumat { display:none; background: rgba(255,215,0,0.15); border-left: 5px solid var(--kuning); padding: 15px 20px; font-size: 13px; font-weight: 700; color: var(--kuning); }
+ .content { padding: 25px 20px; flex: 1; }
+ .card-tutup { background: rgba(229, 57, 53, 0.2); border: 2px solid var(--merah); border-radius: 16px; padding: 25px 20px; text-align: center; margin-bottom: 25px; }
+ .card-tutup h3 { margin: 0 0 10px 0; font-size: 18px; font-weight: 800; color: #FF8A80; }
+ .form-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border-radius: 18px; padding: 25px 20px; border: 1px solid rgba(255,255,255,0.15); }
+ .question { margin-bottom: 18px; }
+ .question label { display: block; font-size: 13px; margin-bottom: 8px; font-weight: 700; }
+ .question label i { color: var(--kuning); margin-right: 6px; }
+ .question input,.question select { width: 100%; padding: 14px; border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; font-size: 14px; background: rgba(0,0,0,0.2); color: white; font-weight: 600; }
+ .radio-group { display: flex; gap: 15px; flex-wrap: wrap; }
+ .preview-foto { display:none; margin-top: 10px; text-align: center; }
+ .preview-foto img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--kuning); }
+ .note { font-size:11px; opacity:0.8; margin-top:5px; color: var(--kuning); }
+ .btn { background: linear-gradient(135deg, var(--kuning), #FFA000); color: var(--ungu-tua); font-size: 16px; padding: 16px; border: 0; border-radius: 14px; cursor: pointer; font-weight: 900; width: 100%; }
+ .rekap { margin-top: 30px; }
+ .rekap h3 { font-size: 16px; font-weight: 800; color: var(--kuning); border-bottom: 3px solid var(--kuning); padding-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 10px; background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; }
+    th { padding: 10px 4px; font-weight: 800; text-align: center; background: rgba(0,0,0,0.3); }
+    td { padding: 10px 4px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+   .badge-foto { padding: 3px 6px; border-radius: 6px; font-size: 9px; font-weight: 800; }
+   .badge-wajib { background: var(--hijau); }.badge-tidak { background: #9E9E9E; }
+ .footer { background: var(--ungu-tua); padding: 18px 20px; text-align: center; font-size: 11px; font-weight: 800; color: var(--kuning); border-top: 4px solid var(--kuning); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-persegi"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStvplhv8JThl1KSTkQV_-sPDe9by1I2ZXrhdD_h_K2q_ZR664yk3coACY&s=10" alt="Logo KPU"></div>
+        <h1><i class="fa-solid fa-crown"></i> SISTEM ABSENSI MAGANG,</h1>,
+        <p>KOMISI PEMILIHAN UMUM PROVINSI JAMBI</p>
+    </div>
+
+    <div class="jam-operasional"><i class="fa-solid fa-building-columns"></i> JAM OPERASIONAL: SENIN-KAMIS 08.00-16.00 WIB | JUMAT 08.00-16.30 WIB</div>
+    <div class="ket-jumat" id="ketJumat"><i class="fa-solid fa-star"></i> INFORMASI JUMAT: Operasional 2 Pilihan: <b>WFH</b> atau <b>Masuk Kantor</b></div>
+
+    <div class="content">
+        <div class="card-tutup" id="tutup"><h3><i class="fa-solid fa-shield-halved"></i> AKSES DITUTUP</h3><p id="pesanTutup">Hari ini kantor tutup. Absensi hanya Senin - Jumat</p></div>
+
+        <div class="form-card" id="formArea" style="display:none;">
+            <form id="formAbsen">
+                <!-- URUTAN 1 -->
+                <div class="question"><label><i class="fa-solid fa-calendar"></i> Hari & Tanggal</label><input type="text" id="hariTanggal" readonly></div>
+                <!-- URUTAN 2 -->
+                <div class="question"><label><i class="fa-solid fa-clock"></i> Jam Absen</label><input type="text" id="jam" readonly></div>
+                <!-- URUTAN 3 -->
+                <div class="question"><label><i class="fa-solid fa-user"></i> Nama Lengkap *</label><input type="text" id="nama" required></div>
+                <!-- URUTAN 4 -->
+                <div class="question"><label><i class="fa-solid fa-id-card"></i> NIM *</label><input type="text" id="nim" required></div>
+                <!-- URUTAN 5 -->
+                <div class="question"><label><i class="fa-solid fa-school"></i> Universitas *</label>
+                    <div class="radio-group"><label><input type="radio" name="univ" value="UIN" required> UIN</label><label><input type="radio" name="univ" value="UNJA"> UNJA</label></div>
+                </div>
+                <!-- URUTAN 6 -->
+                <div class="question"><label><i class="fa-solid fa-sitemap"></i> Unit Bagian Magang *</label>
+                    <select id="unit" required><option value="">-- Pilih Unit --</option><option>Perencanaan Data dan Informasi</option><option>SDM</option><option>Teknik</option><option>Tata Usaha</option><option>Keuangan</option></select>
+                </div>
+                <!-- URUTAN 7 -->
+                <div class="question"><label><i class="fa-solid fa-right-to-bracket"></i> Jenis Absen *</label>
+                    <select id="jenis" required><option value="">-- Pilih --</option><option value="Datang">Datang ke Kantor</option><option value="Pulang">Pulang dari Kantor</option></select>
+                </div>
+                <!-- URUTAN 8 -->
+                <div class="question" id="boxFotoMasuk" style="display:none;">
+                    <label><i class="fa-solid fa-camera"></i> Bukti Foto Masuk Kantor *</label>
+                    <input type="file" id="fotoMasuk" accept="image/*" capture="user">
+                    <div class="preview-foto" id="previewMasuk"><img id="imgMasuk" src=""></div>
+                </div>
+                <div class="question" id="boxFotoPulang" style="display:none;">
+                    <label><i class="fa-solid fa-camera"></i> Bukti Foto Pulang Kantor *</label>
+                    <input type="file" id="fotoPulang" accept="image/*" capture="user">
+                    <div class="preview-foto" id="previewPulang"><img id="imgPulang" src=""></div>
+                </div>
+                <!-- URUTAN 9 -->
+                <div class="question" id="boxJumat" style="display:none;"><label><i class="fa-solid fa-house-laptop"></i> Operasional Jumat *</label>
+                    <select id="jumat"><option value="">-- Pilih --</option><option>WFH</option><option>Masuk Kantor</option></select>
+                    <p class="note">*Jika pilih WFH maka tidak wajib upload foto</p>
+                </div>
+                <!-- URUTAN 10 -->
+                <div class="question"><label><i class="fa-solid fa-circle-info"></i> Keterangan *</label>
+                    <select id="ket" required><option value="">-- Pilih --</option><option>Hadir</option><option>Izin</option><option>Sakit</option><option>Alpa</option></select>
+                </div>
+                <button type="submit" class="btn"><i class="fa-solid fa-paper-plane"></i> KIRIM ABSENSI</button>
+            </form>
+        </div>
+
+        <div class="rekap">
+            <h3><i class="fa-solid fa-chart-simple"></i> Rekapitulasi Kehadiran Hari Ini</h3>
+            <div style="overflow-x:auto;">
+                <table id="tabelRekap">
+                    <thead>
+                        <tr>
+                            <th>No</th><th>Nama</th><th>Unit</th><th>Jenis</th><th>Jam</th>
+                            <th>Operasional</th> <!-- BARU -->
+                            <th>Status Foto</th> <!-- BARU: RULE -->
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fa-solid fa-shield"></i> © 2026 SISTEM INFORMASI TERINTEGRASI | SEKRETARIAT KPU PROVINSI JAMBI</div>
+</div>
+
+<script>
+let no=1; let hariSekarang="";
+function updateJam(){
+    let d=new Date(); hariSekarang=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][d.getDay()];
+    let tgl=d.toLocaleDateString('id-ID'); let jam=d.toTimeString().slice(0,5);
+    document.getElementById("hariTanggal").value = hariSekarang + ", " + tgl; document.getElementById("jam").value = jam;
+
+    let tutup=true;
+    if(hariSekarang=="Jumat"){
+        document.getElementById("boxJumat").style.display="block";
+        document.getElementById("ketJumat").style.display="block";
+        document.getElementById("jumat").required=true;
+        if(jam>="08:00" && jam<="16:30") tutup=false;
+    }
+    else if(hariSekarang!="Sabtu" && hariSekarang!="Minggu"){
+        document.getElementById("boxJumat").style.display="none";
+        document.getElementById("ketJumat").style.display="none";
+        document.getElementById("jumat").required=false;
+        if(jam>="08:00" && jam<="16:00") tutup=false;
+    }
+    document.getElementById("formArea").style.display = tutup? "none" : "block";
+    document.getElementById("tutup").style.display = tutup? "block" : "none";
+    cekFotoWajib();
+}
+
+// LOGIKA FOTO OTOMATIS + EXCEPT JUMAT WFH
+function cekFotoWajib(){
+    let jenis = document.getElementById("jenis").value;
+    let jumat = document.getElementById("jumat").value;
+    let boxMasuk = document.getElementById("boxFotoMasuk");
+    let boxPulang = document.getElementById("boxFotoPulang");
+
+    boxMasuk.style.display="none"; boxPulang.style.display="none";
+    document.getElementById("fotoMasuk").required=false;
+    document.getElementById("fotoPulang").required=false;
+
+    if(hariSekarang=="Jumat" && jumat=="WFH"){ return; } // RULE: WFH GAK WAJIB FOTO
+
+    if(jenis == "Datang"){ boxMasuk.style.display="block"; document.getElementById("fotoMasuk").required=true; }
+    else if(jenis == "Pulang"){ boxPulang.style.display="block"; document.getElementById("fotoPulang").required=true; }
+}
+
+document.getElementById("jenis").addEventListener("change", cekFotoWajib);
+document.getElementById("jumat").addEventListener("change", cekFotoWajib);
+
+document.getElementById('fotoMasuk').onchange = e => { const [file]=e.target.files; if(file){ document.getElementById('previewMasuk').style.display='block'; document.getElementById('imgMasuk').src=URL.createObjectURL(file); }}
+document.getElementById('fotoPulang').onchange = e => { const [file]=e.target.files; if(file){ document.getElementById('previewPulang').style.display='block'; document.getElementById('imgPulang').src=URL.createObjectURL(file); }}
+
+// FUNGSI CEK STATUS FOTO BUAT TABEL
+function getStatusFoto(jenis, jumatVal){
+    if(hariSekarang=="Jumat" && jumatVal=="WFH"){ return '<span class="badge-foto badge-tidak">TIDAK WAJIB</span>'; }
+    if(jenis=="Datang" || jenis=="Pulang"){ return '<span class="badge-foto badge-wajib">WAJIB</span>'; }
+    return '-';
+}
+
+document.getElementById("formAbsen").addEventListener("submit", function(e){
+    e.preventDefault();
+    let jumatVal = document.getElementById("jumat").value || "-";
+    let statusFoto = getStatusFoto(document.getElementById("jenis").value, jumatVal);
+
+    let tr=`<tr>
+        <td>${no++}</td>
+        <td>${nama.value}</td>
+        <td>${unit.value}</td>
+        <td>${jenis.value}</td>
+        <td>${jam.value}</td>
+        <td>${jumatVal}</td>
+        <td>${statusFoto}</td>
+    </tr>`;
+    document.getElementById("tabelRekap").querySelector("tbody").innerHTML+=tr;
+    alert("✅ Absensi Berhasil!");
+    this.reset();
+    document.getElementById("previewMasuk").style.display="none";
+    document.getElementById("previewPulang").style.display="none";
+    cekFotoWajib();
+});
+updateJam(); setInterval(updateJam,1000);
+</script>
+</body>
+</html>
